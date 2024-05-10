@@ -32,7 +32,7 @@ public class User {
     private String name;
     @Column(unique = true, length = 20)
     @Pattern(regexp = "[a-z]*")
-    private String userName;
+    private String username;
     @Email
     @Column(unique = true)
     private String email;

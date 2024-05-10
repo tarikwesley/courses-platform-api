@@ -18,8 +18,8 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/{userName}")
-    public ResponseEntity<UserDTO> getUser(@PathVariable(name = "userName") String userName) {
-        return ResponseEntity.ok().body(userService.getUserByUserName(userName));
+    @GetMapping("/{username}")
+    public ResponseEntity<UserDTO> getUser(@PathVariable(name = "username") String username) {
+        return ResponseEntity.ok().body(userService.getUserByUsername(username));
     }
 }

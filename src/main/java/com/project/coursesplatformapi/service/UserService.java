@@ -13,7 +13,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public UserDTO getUserByUserName(String userName) {
-        return userRepository.findByUserName(userName);
+    public UserDTO getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 }
