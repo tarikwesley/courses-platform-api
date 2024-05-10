@@ -36,5 +36,5 @@ public class Course {
     @Enumerated(EnumType.STRING)
     private Status status;
     private LocalDate createdAt;
-    private LocalDate inactiveAt;
+    private LocalDate inactivatedAt;
 }

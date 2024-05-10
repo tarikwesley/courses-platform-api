@@ -26,16 +26,16 @@ public class Registration {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
-    @JoinColumn(name = "username", referencedColumnName = "username")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
     @ManyToOne
-    @JoinColumn(name = "code", referencedColumnName = "code")
+    @JoinColumn(name = "course_id", referencedColumnName = "id")
     private Course course;
-    private LocalDate registrationDate;
+    private LocalDate registrationAt;
 
     public Registration(RegistrationDTO register) {
         this.user = register.user();
         this.course = register.course();
-        this.registrationDate = LocalDate.now();
+        this.registrationAt = LocalDate.now();
     }
 }
