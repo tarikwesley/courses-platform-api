@@ -1,5 +1,6 @@
 package com.project.coursesplatformapi.model;
 
+import com.project.coursesplatformapi.dto.UserDTO;
 import com.project.coursesplatformapi.model.enums.Role;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -40,4 +41,13 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
     private LocalDate createdAt;
+
+    public User(UserDTO userDTO) {
+        this.name = userDTO.name();
+        this.username = userDTO.username();
+        this.email = userDTO.email();
+        this.password = userDTO.password();
+        this.role = userDTO.role();
+        this.createdAt = LocalDate.now();
+    }
 }

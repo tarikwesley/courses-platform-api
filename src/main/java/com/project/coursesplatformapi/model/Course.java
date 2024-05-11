@@ -1,5 +1,6 @@
 package com.project.coursesplatformapi.model;
 
+import com.project.coursesplatformapi.dto.CourseDTO;
 import com.project.coursesplatformapi.model.enums.Status;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -37,4 +38,13 @@ public class Course {
     private Status status;
     private LocalDate createdAt;
     private LocalDate inactivatedAt;
+
+    public Course(CourseDTO courseDTO) {
+        this.name = courseDTO.name();
+        this.code = courseDTO.code();
+        this.instructor = courseDTO.instructor();
+        this.description = courseDTO.description();
+        this.status = Status.ACTIVE;
+        this.createdAt = LocalDate.now();
+    }
 }
