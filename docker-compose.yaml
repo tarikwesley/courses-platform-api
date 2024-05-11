@@ -1,0 +1,29 @@
+services:
+  app:
+    container_name: courses-platform-api
+    build: .
+    environment:
+      SPRING.DATASOURCE.URL: jdbc:mysql://db:3306/courses-platform-api-db?createDatabaseIfNotExist=true
+      SPRING.DATASOURCE.USERNAME: root
+      SPRING.DATASOURCE.PASSWORD: root
+    ports:
+      - "8081:8080"
+    depends_on:
+      - db
+    networks:
+      - network
+  db:
+    container_name: courses-platform-db
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: courses-platform-api-db
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p", "root" ]
+      timeout: 20s
+      retries: 10
+    networks:
+      - network
+networks:
+  network:
+    driver: bridge
