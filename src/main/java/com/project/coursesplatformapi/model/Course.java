@@ -10,7 +10,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,7 +29,6 @@ public class Course {
     private Long id;
     private String name;
     @Column(unique = true, length = 10)
-    @Pattern(regexp = "^[a-zA-Z]+(?:-[a-zA-Z]+)*$")
     private String code;
     private String instructor;
     private String description;

@@ -1,6 +1,5 @@
 package com.project.coursesplatformapi.model;
 
-import com.project.coursesplatformapi.dto.RegistrationDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -33,9 +32,9 @@ public class Registration {
     private Course course;
     private LocalDate registrationAt;
 
-    public Registration(RegistrationDTO register) {
-        this.user = register.user();
-        this.course = register.course();
+    public Registration(User user, Course course) {
+        this.user = user;
+        this.course = course;
         this.registrationAt = LocalDate.now();
     }
 }

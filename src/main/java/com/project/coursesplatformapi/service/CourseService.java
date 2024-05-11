@@ -30,6 +30,7 @@ public class CourseService {
     }
 
     public Page<Course> getAllCourses(Status status, Pageable page) {
+        if (status == null) return courseRepository.findAll(page);
         return courseRepository.findByStatus(status, page);
     }
 
@@ -38,8 +39,16 @@ public class CourseService {
         if (!instructor.role().equals(Role.INSTRUCTOR))
             throw new RuntimeException("User is not an instructor and can't create a course.");
 
+        courseRepository.findByCode(courseDTO.code()).ifPresent(course -> {
+            throw new RuntimeException("Course with this code already exists.");
+        });
+
         Course course = new Course(courseDTO);
         courseRepository.save(course);
         return course;
+    }
+
+    public Course findCourseById(Long id) {
+        return courseRepository.findById(id).orElseThrow(() -> new RuntimeException("Course not found"));
     }
 }

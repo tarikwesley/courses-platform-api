@@ -1,7 +1,6 @@
 package com.project.coursesplatformapi.dto;
 
-import com.project.coursesplatformapi.model.Course;
-import com.project.coursesplatformapi.model.User;
+import jakarta.validation.constraints.NotNull;
 
-public record RegistrationDTO(User user, Course course) {
+public record RegistrationDTO(@NotNull Long user_id, @NotNull Long course_id) {
 }

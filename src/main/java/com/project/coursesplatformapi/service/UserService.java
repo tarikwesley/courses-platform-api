@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-
     private final UserRepository userRepository;
 
     public UserService(UserRepository userRepository) {
@@ -16,12 +15,19 @@ public class UserService {
     }
 
     public UserResponseDTO getUserByUsername(String username) {
-        return userRepository.findByUsername(username);
+        return userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
     }
 
     public User createUser(UserDTO userDTO) {
+        userRepository.findByUsernameOrEmail(userDTO.username(), userDTO.email()).ifPresent(user -> {
+            throw new RuntimeException("User already exists");
+        });
         User user = new User(userDTO);
         userRepository.save(user);
         return user;
+    }
+
+    public User findUserById(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
     }
 }

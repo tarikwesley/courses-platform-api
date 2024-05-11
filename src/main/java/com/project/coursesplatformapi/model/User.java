@@ -10,8 +10,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,9 +30,7 @@ public class User {
     private Long id;
     private String name;
     @Column(unique = true, length = 20)
-    @Pattern(regexp = "[a-z]*")
     private String username;
-    @Email
     @Column(unique = true)
     private String email;
     private String password;
