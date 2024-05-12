@@ -2,6 +2,7 @@ package com.project.coursesplatformapi.service;
 
 import com.project.coursesplatformapi.dto.UserDTO;
 import com.project.coursesplatformapi.dto.UserResponseDTO;
+import com.project.coursesplatformapi.exception.UserException;
 import com.project.coursesplatformapi.model.User;
 import com.project.coursesplatformapi.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -15,12 +16,12 @@ public class UserService {
     }
 
     public UserResponseDTO getUserByUsername(String username) {
-        return userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
+        return userRepository.findByUsername(username).orElseThrow(() -> new UserException("User not found"));
     }
 
     public User createUser(UserDTO userDTO) {
         userRepository.findByUsernameOrEmail(userDTO.username(), userDTO.email()).ifPresent(user -> {
-            throw new RuntimeException("User already exists");
+            throw new UserException("User already exists");
         });
         User user = new User(userDTO);
         userRepository.save(user);
@@ -28,6 +29,6 @@ public class UserService {
     }
 
     public User findUserById(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        return userRepository.findById(id).orElseThrow(() -> new UserException("User not found"));
     }
 }

@@ -1,6 +1,7 @@
 package com.project.coursesplatformapi.service;
 
 import com.project.coursesplatformapi.dto.CourseDTO;
+import com.project.coursesplatformapi.exception.CourseException;
 import com.project.coursesplatformapi.model.Course;
 import com.project.coursesplatformapi.model.enums.Role;
 import com.project.coursesplatformapi.model.enums.Status;
@@ -22,7 +23,7 @@ public class CourseService {
     }
 
     public Course disableCourse(String code) {
-        Course course = courseRepository.findByCode(code).orElseThrow(() -> new RuntimeException("Course not found"));
+        Course course = courseRepository.findByCode(code).orElseThrow(() -> new CourseException("Course not found"));
         course.setStatus(Status.INACTIVE);
         course.setInactivatedAt(LocalDate.now());
         courseRepository.save(course);
@@ -37,10 +38,10 @@ public class CourseService {
     public Course createCourse(CourseDTO courseDTO) {
         var instructor = userService.getUserByUsername(courseDTO.instructor());
         if (!instructor.role().equals(Role.INSTRUCTOR))
-            throw new RuntimeException("User is not an instructor and can't create a course.");
+            throw new CourseException("User is not an instructor and can't create a course.");
 
         courseRepository.findByCode(courseDTO.code()).ifPresent(course -> {
-            throw new RuntimeException("Course with this code already exists.");
+            throw new CourseException("Course with this code already exists.");
         });
 
         Course course = new Course(courseDTO);
@@ -49,6 +50,6 @@ public class CourseService {
     }
 
     public Course findCourseById(Long id) {
-        return courseRepository.findById(id).orElseThrow(() -> new RuntimeException("Course not found"));
+        return courseRepository.findById(id).orElseThrow(() -> new CourseException("Course not found"));
     }
 }
