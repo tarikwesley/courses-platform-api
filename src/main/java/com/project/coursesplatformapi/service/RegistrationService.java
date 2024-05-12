@@ -10,6 +10,8 @@ import com.project.coursesplatformapi.model.enums.Status;
 import com.project.coursesplatformapi.repository.RegistrationRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RegistrationService {
     private final RegistrationRepository registrationRepository;
@@ -37,5 +39,14 @@ public class RegistrationService {
         Registration registration = new Registration(user, course);
         registrationRepository.save(registration);
         return registration;
+    }
+
+    public Registration getRegistration(Long userId, Long courseId) {
+        return registrationRepository.findByUserIdAndCourseId(userId, courseId)
+                .orElseThrow(() -> new RegistrationException("Registration not found."));
+    }
+
+    public List<Registration> getRegistrations() {
+        return registrationRepository.findAll();
     }
 }
