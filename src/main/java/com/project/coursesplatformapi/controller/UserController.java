@@ -7,6 +7,7 @@ import com.project.coursesplatformapi.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +31,9 @@ public class UserController {
     }
 
     @GetMapping("/{username}")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public ResponseEntity<UserResponseDTO> getUser(@PathVariable(name = "username") String username) {
-        return ResponseEntity.ok().body(userService.getUserByUsername(username));
+        User user = userService.getUserByUsername(username);
+        return ResponseEntity.ok(new UserResponseDTO(user.getName(), user.getEmail(), user.getRole()));
     }
 }

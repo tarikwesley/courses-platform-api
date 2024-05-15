@@ -37,7 +37,7 @@ public class CourseService {
 
     public Course createCourse(CourseDTO courseDTO) {
         var instructor = userService.getUserByUsername(courseDTO.instructor());
-        if (!instructor.role().equals(Role.INSTRUCTOR))
+        if (!instructor.getRole().equals(Role.INSTRUCTOR))
             throw new CourseException("User is not an instructor and can't create a course.");
 
         courseRepository.findByCode(courseDTO.code()).ifPresent(course -> {

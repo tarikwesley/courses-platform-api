@@ -3,10 +3,10 @@ package com.project.coursesplatformapi.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.coursesplatformapi.dto.ReviewDTO;
-import com.project.coursesplatformapi.dto.UserResponseDTO;
 import com.project.coursesplatformapi.exception.ReviewException;
 import com.project.coursesplatformapi.model.Registration;
 import com.project.coursesplatformapi.model.Review;
+import com.project.coursesplatformapi.model.User;
 import com.project.coursesplatformapi.repository.ReviewRepository;
 import org.springframework.stereotype.Service;
 
@@ -35,11 +35,11 @@ public class ReviewService {
         reviewRepository.save(review);
 
         if (review.getRating() < 6) {
-            UserResponseDTO user = userService.getUserByUsername(registration.getCourse().getInstructor());
+            User user = userService.getUserByUsername(registration.getCourse().getInstructor());
             ObjectMapper objectMapper = new ObjectMapper();
             try {
                 String message = objectMapper.writeValueAsString(reviewDTO);
-                notificationService.emailSender(user.email(), "New review added", message);
+                notificationService.emailSender(user.getEmail(), "New review added", message);
             } catch (JsonProcessingException e) {
                 throw new ReviewException("Error while processing review for email notification");
             }

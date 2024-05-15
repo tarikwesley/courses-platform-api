@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,16 +30,19 @@ public class CourseController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public ResponseEntity<Course> createCourse(@Valid @RequestBody CourseDTO courseDTO) {
         return new ResponseEntity<>(courseService.createCourse(courseDTO), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{code}")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public ResponseEntity<Course> disableCourse(@PathVariable(name = "code") String code) {
         return ResponseEntity.ok(courseService.disableCourse(code));
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public ResponseEntity<Page<Course>> getAllCourses(@Valid @RequestParam(required = false) Status status, @PageableDefault(size = 10, page = 0, sort = "id") Pageable page) {
         return ResponseEntity.ok(courseService.getAllCourses(status, page));
     }

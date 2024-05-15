@@ -1,5 +1,6 @@
 package com.project.coursesplatformapi.model;
 
+import com.project.coursesplatformapi.dto.LoginRequestDTO;
 import com.project.coursesplatformapi.dto.UserDTO;
 import com.project.coursesplatformapi.model.enums.Role;
 import jakarta.persistence.Column;
@@ -14,6 +15,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 import java.time.LocalDate;
@@ -45,5 +47,9 @@ public class User {
         this.password = userDTO.password();
         this.role = userDTO.role();
         this.createdAt = LocalDate.now();
+    }
+
+    public boolean isLoginCorrect(LoginRequestDTO loginRequest, PasswordEncoder passwordEncoder) {
+        return passwordEncoder.matches(loginRequest.password(), this.password);
     }
 }

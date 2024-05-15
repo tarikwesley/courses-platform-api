@@ -6,6 +6,7 @@ import com.project.coursesplatformapi.exception.ReviewException;
 import com.project.coursesplatformapi.exception.UserException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.Objects;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
@@ -52,6 +54,12 @@ public class CustomExceptionHandler {
     @ExceptionHandler(ReviewException.class)
     protected ResponseEntity<Object> reviewExceptionHandler(ReviewException ex) {
         HttpStatus status = BAD_REQUEST;
+        return new ResponseEntity<>(new ErrorDTO(ex.getMessage(), status), status);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<Object> accessDeniedExceptionHandler(AccessDeniedException ex) {
+        HttpStatus status = FORBIDDEN;
         return new ResponseEntity<>(new ErrorDTO(ex.getMessage(), status), status);
     }
 }

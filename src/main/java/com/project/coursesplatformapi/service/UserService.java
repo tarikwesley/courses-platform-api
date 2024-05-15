@@ -1,21 +1,23 @@
 package com.project.coursesplatformapi.service;
 
 import com.project.coursesplatformapi.dto.UserDTO;
-import com.project.coursesplatformapi.dto.UserResponseDTO;
 import com.project.coursesplatformapi.exception.UserException;
 import com.project.coursesplatformapi.model.User;
 import com.project.coursesplatformapi.repository.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    public UserResponseDTO getUserByUsername(String username) {
+    public User getUserByUsername(String username) {
         return userRepository.findByUsername(username).orElseThrow(() -> new UserException("User not found"));
     }
 
@@ -24,6 +26,7 @@ public class UserService {
             throw new UserException("User already exists");
         });
         User user = new User(userDTO);
+        user.setPassword(passwordEncoder.encode(userDTO.password()));
         userRepository.save(user);
         return user;
     }
