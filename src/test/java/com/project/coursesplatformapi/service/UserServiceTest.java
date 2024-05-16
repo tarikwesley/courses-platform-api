@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import java.util.Optional;
 
@@ -39,6 +40,7 @@ class UserServiceTest {
     }
 
     @Test
+    @WithMockUser(authorities = {"SCOPE_ADMIN"})
     void shouldReturnUserByUsernameWhenUserExist() {
         String username = "lucas";
         User user = new User();
@@ -52,6 +54,7 @@ class UserServiceTest {
     }
 
     @Test
+    @WithMockUser(authorities = {"SCOPE_ADMIN"})
     void shouldThrowsExceptionWhenInSearchUserByUsernameNotExist() {
         String username = "nonExistingUser";
         when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
