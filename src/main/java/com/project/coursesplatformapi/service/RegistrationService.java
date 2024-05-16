@@ -29,8 +29,6 @@ public class RegistrationService {
             throw new RegistrationException("User is already registered to this course.");
 
         User user = userService.findUserById(registrationDTO.user_id());
-        if (user.getRole().name().equals(Status.INACTIVE.name()))
-            throw new CourseException("User is inactive. You can't register inactive user to course.");
 
         Course course = courseService.findCourseById(registrationDTO.course_id());
         if (course.getStatus().name().equals(Status.INACTIVE.name()))
