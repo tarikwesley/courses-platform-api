@@ -36,10 +36,8 @@ public class ReviewService {
 
         if (review.getRating() < 6) {
             User user = userService.getUserByUsername(registration.getCourse().getInstructor());
-            ObjectMapper objectMapper = new ObjectMapper();
             try {
-                String message = objectMapper.writeValueAsString(reviewDTO);
-                notificationService.emailSender(user.getEmail(), "New review added", message);
+                notificationService.emailSender(user.getEmail(), "New review added", review);
             } catch (JsonProcessingException e) {
                 throw new ReviewException("Error while processing review for email notification");
             }
