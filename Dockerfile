@@ -1,4 +1,4 @@
-FROM openjdk:22-jdk-slim
+FROM openjdk:21-jdk-slim
 
 RUN apt update && apt install bash wget -y
 

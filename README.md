@@ -22,7 +22,7 @@
 </p>
 
 <p align="center">
-  <b>The Courses Platform API is designed to manage and interact with an online courses system. The API allows for user authentication, enabling secure access to its features. Users can register new accounts, create and manage courses, enroll in available courses, and provide reviews and ratings for the courses they have completed. Additionally, the API supports generating Net Promoter Score (NPS) reports for each course to assess user satisfaction.  Java 22, Spring Boot, Spring Security, Oauth2, JWT, MySQL, FlyWay, Swagger and Docker were used for development.</b>
+  <b>The Courses Platform API is designed to manage and interact with an online courses system. The API allows for user authentication, enabling secure access to its features. Users can register new accounts, create and manage courses, enroll in available courses, and provide reviews and ratings for the courses they have completed. Additionally, the API supports generating Net Promoter Score (NPS) reports for each course to assess user satisfaction.  Java 21, Spring Boot, Spring Security, Oauth2, JWT, MySQL, FlyWay, Swagger and Docker were used for development.</b>
 </p>
 
 
