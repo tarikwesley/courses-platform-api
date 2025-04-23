@@ -22,6 +22,5 @@ public class RegistrationController {
     @PostMapping
     public ResponseEntity<Registration> createRegistration(@Valid @RequestBody RegistrationDTO registrationDTO) {
         return ResponseEntity.ok(registrationService.registerUserToCourse(registrationDTO));
-
     }
 }

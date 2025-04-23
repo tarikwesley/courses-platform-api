@@ -8,11 +8,11 @@ import com.project.coursesplatformapi.model.Registration;
 import com.project.coursesplatformapi.model.User;
 import com.project.coursesplatformapi.model.enums.Status;
 import com.project.coursesplatformapi.repository.RegistrationRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,6 +21,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class RegistrationServiceTest {
 
     @Mock
@@ -35,15 +36,10 @@ class RegistrationServiceTest {
     @InjectMocks
     private RegistrationService registrationService;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.initMocks(this);
-    }
-
     @Test
     void shouldThrowsExceptionWhenTryingRegisterUserToCourseIfUserAlreadyRegistered() {
         RegistrationDTO registrationDTO = new RegistrationDTO(1L, 1L);
-        when(registrationRepository.existsByUserIdAndCourseId(registrationDTO.user_id(), registrationDTO.course_id())).thenReturn(true);
+        when(registrationRepository.existsByUserIdAndCourseId(registrationDTO.userId(), registrationDTO.courseId())).thenReturn(true);
 
         assertThrows(RegistrationException.class, () -> registrationService.registerUserToCourse(registrationDTO));
         verify(registrationRepository, never()).save(any(Registration.class));
@@ -54,8 +50,8 @@ class RegistrationServiceTest {
         Course course = new Course();
         course.setStatus(Status.INACTIVE);
         RegistrationDTO registrationDTO = new RegistrationDTO(1L, 1L);
-        when(registrationRepository.existsByUserIdAndCourseId(registrationDTO.user_id(), registrationDTO.course_id())).thenReturn(false);
-        when(courseService.findCourseById(registrationDTO.course_id())).thenReturn(course);
+        when(registrationRepository.existsByUserIdAndCourseId(registrationDTO.userId(), registrationDTO.courseId())).thenReturn(false);
+        when(courseService.findCourseById(registrationDTO.courseId())).thenReturn(course);
 
         assertThrows(CourseException.class, () -> registrationService.registerUserToCourse(registrationDTO));
         verify(registrationRepository, never()).save(any(Registration.class));
@@ -66,9 +62,9 @@ class RegistrationServiceTest {
         Course course = new Course();
         course.setStatus(Status.ACTIVE);
         RegistrationDTO registrationDTO = new RegistrationDTO(1L, 1L);
-        when(registrationRepository.existsByUserIdAndCourseId(registrationDTO.user_id(), registrationDTO.course_id())).thenReturn(false);
-        when(courseService.findCourseById(registrationDTO.course_id())).thenReturn(course);
-        when(userService.findUserById(registrationDTO.user_id())).thenReturn(new User());
+        when(registrationRepository.existsByUserIdAndCourseId(registrationDTO.userId(), registrationDTO.courseId())).thenReturn(false);
+        when(courseService.findCourseById(registrationDTO.courseId())).thenReturn(course);
+        when(userService.findUserById(registrationDTO.userId())).thenReturn(new User());
 
         Registration registration = registrationService.registerUserToCourse(registrationDTO);
 

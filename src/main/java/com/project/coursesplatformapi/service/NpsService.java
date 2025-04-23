@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 @Service
 public class NpsService {
 
-
     private final ReviewService reviewService;
     private final RegistrationService registrationService;
 
@@ -61,5 +60,4 @@ public class NpsService {
         int nps = (promoters - detractors) * 100 / totalReviews;
         return new NpsDTO(nps, promoters, detractors, passives);
     }
-
 }

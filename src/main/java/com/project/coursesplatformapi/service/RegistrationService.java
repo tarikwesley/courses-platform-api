@@ -25,12 +25,12 @@ public class RegistrationService {
     }
 
     public Registration registerUserToCourse(RegistrationDTO registrationDTO) {
-        if (registrationRepository.existsByUserIdAndCourseId(registrationDTO.user_id(), registrationDTO.course_id()))
+        if (registrationRepository.existsByUserIdAndCourseId(registrationDTO.userId(), registrationDTO.courseId()))
             throw new RegistrationException("User is already registered to this course.");
 
-        User user = userService.findUserById(registrationDTO.user_id());
+        User user = userService.findUserById(registrationDTO.userId());
 
-        Course course = courseService.findCourseById(registrationDTO.course_id());
+        Course course = courseService.findCourseById(registrationDTO.courseId());
         if (course.getStatus().name().equals(Status.INACTIVE.name()))
             throw new CourseException("Course is inactive. You can't register to inactive course.");
 

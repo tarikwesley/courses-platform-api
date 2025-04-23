@@ -3,11 +3,11 @@ package com.project.coursesplatformapi.controller;
 import com.project.coursesplatformapi.dto.RegistrationDTO;
 import com.project.coursesplatformapi.model.Registration;
 import com.project.coursesplatformapi.service.RegistrationService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class RegistrationControllerTest {
 
     @Mock
@@ -22,11 +23,6 @@ class RegistrationControllerTest {
 
     @InjectMocks
     private RegistrationController registrationController;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
     void shouldCreateRegistrationSuccessfully() {
@@ -48,9 +44,7 @@ class RegistrationControllerTest {
 
         when(registrationService.registerUserToCourse(registrationDTO)).thenThrow(new IllegalArgumentException("Course ID is required"));
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            throw new IllegalArgumentException("Course ID is required");
-        });
+        assertThrows(IllegalArgumentException.class, () ->
+                registrationService.registerUserToCourse(registrationDTO));
     }
-
 }

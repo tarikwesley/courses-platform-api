@@ -6,11 +6,11 @@ import com.project.coursesplatformapi.model.Course;
 import com.project.coursesplatformapi.model.Registration;
 import com.project.coursesplatformapi.model.Review;
 import com.project.coursesplatformapi.model.User;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +20,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class NpsServiceTest {
 
     @Mock
@@ -30,11 +31,6 @@ class NpsServiceTest {
 
     @InjectMocks
     private NpsService npsService;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
     void shouldCalculateNpsForCoursesWithPositiveNps() {
@@ -69,7 +65,6 @@ class NpsServiceTest {
 
         when(registrationService.getRegistrations()).thenReturn(registrations);
         when(reviewService.getReviewsByCourse(course1.getId())).thenReturn(reviews.subList(0, 1));
-        when(reviewService.getReviewsByCourse(course2.getId())).thenReturn(new ArrayList<>());
 
         Map<String, NpsDTO> expected = new HashMap<>();
         expected.put(course1.getName(), new NpsDTO(100, 1, 0, 0));

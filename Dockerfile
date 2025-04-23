@@ -1,13 +1,11 @@
 FROM openjdk:21-jdk-slim
 
-RUN apt update && apt install bash wget -y
+RUN apt update && apt install bash wget -y && apt clean \
+&& mkdir -p /opt/app \
+&& wget -O /usr/local/bin/wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh && \
+chmod +x /usr/local/bin/wait-for-it.sh
 
-RUN mkdir -p /opt/app
-
-RUN wget -O /usr/local/bin/wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh && \
-    chmod +x /usr/local/bin/wait-for-it.sh
-
-ENV APP_HOME /opt/app
+ENV APP_HOME=/opt/app
 
 COPY target/courses-platform-api-0.0.1-SNAPSHOT.jar $APP_HOME/app.jar
 

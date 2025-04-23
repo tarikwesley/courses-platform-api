@@ -6,11 +6,11 @@ import com.project.coursesplatformapi.model.Registration;
 import com.project.coursesplatformapi.model.Review;
 import com.project.coursesplatformapi.service.NpsService;
 import com.project.coursesplatformapi.service.ReviewService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -22,6 +22,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class ReviewControllerTest {
 
     @Mock
@@ -32,11 +33,6 @@ class ReviewControllerTest {
 
     @InjectMocks
     private ReviewController reviewController;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
     void shouldAddReview() {

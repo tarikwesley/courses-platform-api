@@ -1,7 +1,6 @@
 package com.project.coursesplatformapi.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.coursesplatformapi.dto.ReviewDTO;
 import com.project.coursesplatformapi.exception.ReviewException;
 import com.project.coursesplatformapi.model.Course;
@@ -10,11 +9,11 @@ import com.project.coursesplatformapi.model.Review;
 import com.project.coursesplatformapi.model.User;
 import com.project.coursesplatformapi.model.enums.Role;
 import com.project.coursesplatformapi.repository.ReviewRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collections;
 import java.util.List;
@@ -22,6 +21,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class ReviewServiceTest {
 
     @Mock
@@ -36,16 +36,8 @@ class ReviewServiceTest {
     @Mock
     private UserService userService;
 
-    @Mock
-    private ObjectMapper objectMapper;
-
     @InjectMocks
     private ReviewService reviewService;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.initMocks(this);
-    }
 
     @Test
     void shouldThrowsExceptionWhenUserAlreadyEvaluatedCourse() {
@@ -94,8 +86,6 @@ class ReviewServiceTest {
         registration.setCourse(course);
         when(reviewRepository.existsByUserIdAndCourseId(reviewDTO.userId(), reviewDTO.courseId())).thenReturn(false);
         when(registrationService.getRegistration(reviewDTO.userId(), reviewDTO.courseId())).thenReturn(registration);
-        when(userService.getUserByUsername(registration.getCourse().getInstructor())).thenReturn(user);
-        doNothing().when(notificationService).emailSender(anyString(), anyString(), any());
 
         Review addedReview = reviewService.addReview(reviewDTO);
 
@@ -120,7 +110,6 @@ class ReviewServiceTest {
         when(reviewRepository.existsByUserIdAndCourseId(reviewDTO.userId(), reviewDTO.courseId())).thenReturn(false);
         when(registrationService.getRegistration(reviewDTO.userId(), reviewDTO.courseId())).thenReturn(registration);
         when(userService.getUserByUsername(registration.getCourse().getInstructor())).thenReturn(user);
-        doThrow(JsonProcessingException.class).when(objectMapper).writeValueAsString(any());
         doThrow(JsonProcessingException.class).when(notificationService).emailSender(eq(user.getEmail()), anyString(), any());
 
         assertThrows(ReviewException.class, () -> reviewService.addReview(reviewDTO));

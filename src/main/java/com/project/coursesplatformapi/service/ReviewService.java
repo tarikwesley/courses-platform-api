@@ -1,7 +1,6 @@
 package com.project.coursesplatformapi.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.coursesplatformapi.dto.ReviewDTO;
 import com.project.coursesplatformapi.exception.ReviewException;
 import com.project.coursesplatformapi.model.Registration;
